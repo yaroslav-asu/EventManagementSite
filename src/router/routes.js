@@ -1,17 +1,16 @@
-
 const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') }
+      {path: '', component: () => import('pages/Index.vue')}
     ]
   },
   {
     path: '/registration',
     component: () => import('layouts/RegistrationLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Registration.vue') }
+      {path: '', component: () => import('pages/Registration.vue')}
     ]
   },
   {
@@ -23,22 +22,26 @@ const routes = [
     path: '/login',
     component: () => import('layouts/LoginLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Login.vue') }
+      {path: '', component: () => import('pages/Login.vue')}
     ]
   },
   {
     path: '/events',
     component: () => import('layouts/EventsLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Events.vue') }
+      {path: '', component: () => import('pages/Events.vue')}
     ]
   },
   {
     path: '/create-event',
     component: () => import('layouts/CreateEventLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/CreateEvent.vue') }
+      {path: '', component: () => import('pages/CreateEvent.vue')}
     ]
+  },
+  {
+    path: '/event/registration',
+    component: () => import('pages/EventRegistration')
   },
   {
     path: '/:catchAll(.*)*',

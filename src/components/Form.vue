@@ -142,7 +142,7 @@ export default {
     formType: {
       type: String,
       // required: true,
-    }
+    },
   },
   data() {
     let username = ref('')
@@ -160,6 +160,9 @@ export default {
     let paramsInputDates = []
     let paramsUploaders = []
     let paramsUploadersMultiply = []
+
+    let arrive_time = ref()
+    let depart_time = ref()
 
     let paramsInput
     let paramsInputPassword
@@ -273,6 +276,8 @@ export default {
           label: 'Загрузить дополнительные фото',
         },
       ]
+    } else if (this.formType === "EventRegistration") {
+      paramsInputDates = [{model: arrive_time, label: "Время прибытия"}, {model: depart_time, label: "Время отбытия"}];
     }
     return {
       paramsInput,
@@ -290,6 +295,8 @@ export default {
       paramsInputDates,
       paramsUploaders,
       paramsUploadersMultiply,
+      arrive_time,
+      depart_time
     }
   },
   methods: {

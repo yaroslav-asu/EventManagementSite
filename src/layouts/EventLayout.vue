@@ -26,7 +26,7 @@
       </div>
       <div class="event_header_center" v-if="this.getToken()">
         <div class="event_header_center_row">
-          <q-btn v-if="isModerator" push color="white" text-color="primary" label="Изменить event"/>
+          <q-btn v-on:click="redirectRegister" v-if="isModerator" push color="white" text-color="primary" label="Изменить event"/>
         </div>
         <div class="event_header_center_row">
           <q-toggle
@@ -161,6 +161,9 @@ export default {
           }
         }
       )
+    },
+    redirectRegister() {
+      this.$route.push("/event/registration");
     }
   },
   mounted() {
