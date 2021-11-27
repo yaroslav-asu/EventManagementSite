@@ -5,23 +5,22 @@
       <div class="event_header_left">
         <q-list class="event_header_external_information" style="font-size: 1rem">
           <q-item-label class="event_information_field text-primary" v-on:click="redirect">Организатор</q-item-label>
+          <q-item-label class="event_information_field">Регистрация открыта до</q-item-label>
           <q-item class="event_information_field">
-            <q-item-section>
-              <q-item-label>Регистрация до</q-item-label>
-              <q-item-label caption>{{ registration_exp }}</q-item-label>
-            </q-item-section>
+            <q-input v-model="exp_time" readonly filled type="time" hint="Время"/>
+            <q-input v-model="exp_date" readonly filled type="date" hint="Дата"/>
           </q-item>
           <q-item-label class="event_information_field">Начало</q-item-label>
-          <q-item disable class="event_information_field">
-            <q-input  v-model="start_time" filled type="time" hint="Время"/>
+          <q-item class="event_information_field">
+            <q-input v-model="start_time" readonly filled type="time" hint="Время"/>
 
-            <q-input v-model="start_date" filled type="date" hint="Дата"/>
+            <q-input v-model="start_date" readonly filled type="date" hint="Дата"/>
           </q-item>
           <q-item-label class="event_information_field">Конец</q-item-label>
-          <q-item disable class="event_information_field">
-            <q-input v-model="finish_time" filled type="time" hint="Время" />
+          <q-item class="event_information_field">
+            <q-input v-model="finish_time" readonly filled type="time" hint="Время"/>
 
-            <q-input v-model="finish_date" filled type="date" hint="Дата" />
+            <q-input v-model="finish_date" readonly filled type="date" hint="Дата"/>
           </q-item>
         </q-list>
       </div>
@@ -98,10 +97,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.limiter{
-  margin-left: 5vw;
-  margin-right: 5vw;
-}
+
 .event_main_content {
   height: 100vh;
   display: flex;
