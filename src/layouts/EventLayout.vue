@@ -5,11 +5,7 @@
     <div class="event_header_information justify-between">
       <div class="event_header_left">
         <q-list class="event_header_external_information" style="font-size: 1rem">
-          <q-item class="event_information_field">
-            <q-item-section>
-              <q-item-label v-on:click="redirect">Организатор</q-item-label>
-            </q-item-section>
-          </q-item>
+          <q-item-label class="event_information_field text-primary" v-on:click="redirect">Организатор</q-item-label>
           <q-item class="event_information_field">
             <q-item-section>
               <q-item-label>Регистрация до</q-item-label>
@@ -17,13 +13,13 @@
             </q-item-section>
           </q-item>
           <q-item-label class="event_information_field">Начало</q-item-label>
-          <q-item class="event_information_field">
-            <q-input disable v-model="start_time" filled type="time" hint="Время"/>
+          <q-item disable class="event_information_field">
+            <q-input  v-model="start_time" filled type="time" hint="Время"/>
 
             <q-input v-model="start_date" filled type="date" hint="Дата"/>
           </q-item>
           <q-item-label class="event_information_field">Конец</q-item-label>
-          <q-item class="event_information_field">
+          <q-item disable class="event_information_field">
             <q-input v-model="finish_time" filled type="time" hint="Время" />
 
             <q-input v-model="finish_date" filled type="date" hint="Дата" />
@@ -78,12 +74,11 @@ export default {
 
         this.start = new Date(EventInstance["date_time_start"]);
         this.start_date = this.start.toISOString().substring(0, 10);
-        this.start_time = this.start.toLocaleTimeString();
+        this.start_time = this.start.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
         this.finish = new Date(EventInstance["date_time_finish"]);
         this.finish_date = this.finish.toISOString().substring(0, 10);
-        console.log( this.finish.toISOString())
-        this.finish_time = this.finish.toLocaleTimeString();
+        this.finish_time = this.finish.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
         this.registration_exp = 123 //TODO
 
@@ -154,6 +149,7 @@ export default {
 .event_information_field {
   font-size: 1.5vw;
   color: grey;
+
 }
 
 .event_main_image {
