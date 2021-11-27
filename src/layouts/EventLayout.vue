@@ -174,6 +174,9 @@ export default {
     font-size: 3.1vw;
     color: black;
   }
+  .event_header_center_row {
+    font-size: 3vw;
+  }
 }
 
 </style>

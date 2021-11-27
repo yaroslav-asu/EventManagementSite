@@ -6,7 +6,7 @@ import SpeakersPersons from "src/store/modules/SpeakersPersons";
 import SponsorsPersons from "src/store/modules/SponsorsPersons";
 import VipsListStore from "src/store/modules/VipsListStore";
 export default new Vuex.Store({
-  modules:{
+  modules: {
     tokensStore,
     VipsListStore,
     SponsorsPersons,

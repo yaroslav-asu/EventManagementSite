@@ -56,7 +56,7 @@ const routes = [
   },
   {
     path: '/event/registration',
-    component: () => import('pages/EventRegistration')
+    component: () => import('pages/EventRegistration.vue')
   },
   {
     path: '/:catchAll(.*)*',

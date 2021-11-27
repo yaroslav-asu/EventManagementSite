@@ -126,7 +126,7 @@
           </div>
         </div>
         <div>
-          <q-btn :label="this.buttonText" type="submit" color="primary" class="q-mb-sm"/>
+          <q-btn style="margin-top: 5px" :label="this.buttonText" type="submit" color="primary" class="q-mb-sm"/>
         </div>
         <RegLogHelpText v-if="this.formTypeName === 'Регистрация' || this.formTypeName === 'Вход'"
                         :parent-page="this.$route.path.replace('/', '')"/>
@@ -142,7 +142,6 @@ import Constants from "src/mixins/Constants";
 import ShowError from "src/mixins/ShowError";
 import Tokens from "src/mixins/Tokens";
 import RegLogHelpText from "components/RegLogHelpText";
-import PersonsList from "components/SpeakersPersons";
 
 export default {
   name: "From",
@@ -153,13 +152,12 @@ export default {
   ],
   components: {
     RegLogHelpText,
-    PersonsList,
   },
   props: {
     formType: {
       type: String,
       // required: true,
-    }
+    },
   },
   data() {
     let username = ref('')
@@ -177,7 +175,6 @@ export default {
     let paramsInputDates = []
     let paramsUploaders = []
     let paramsUploadersMultiply = []
-    let isPrivate = ref(true)
 
     let arrive_time = ref()
     let depart_time = ref()
@@ -294,6 +291,8 @@ export default {
           label: 'Загрузить дополнительные фото',
         },
       ]
+    } else if (this.formType === "EventRegistration") {
+      paramsInputDates = [{model: arrive_time, label: "Время прибытия"}, {model: depart_time, label: "Время отбытия"}];
     }
     return {
       paramsInput,
@@ -311,7 +310,6 @@ export default {
       paramsInputDates,
       paramsUploaders,
       paramsUploadersMultiply,
-      isPrivate,
       arrive_time,
       depart_time
     }
