@@ -3,16 +3,13 @@
     <q-card
       class="form_box column justify-between items-center text-center q-pa-md"
     >
-      <q-form
-        @submit="onSubmit"
-      >
-        <h2
-          class="q-pa-md q-mx-none"
-        >
+      <q-form @submit="onSubmit">
+        <h2 class="q-pa-md q-mx-none">
           {{ formTypeName }}
         </h2>
         <div class="inputs_box">
           <q-input
+            class="input q-my-md"
             v-for="input in paramsInput"
             :key="input"
             v-model="input.model"
@@ -20,10 +17,25 @@
             hint=""
             lazy-rules
             :rules="input.rules"
-            class="q-my-md"
+            :type="input.type"
+
           >
           </q-input>
           <q-input
+            class="input_num q-my-md"
+            v-for="input in paramsInputNum"
+            :key="input"
+            v-model.number="input.model"
+            :label="input.label"
+            hint=""
+            lazy-rules
+            :rules="input.rules"
+
+            type="number"
+          >
+          </q-input>
+          <q-input
+            class="input_pas q-my-md"
             v-for="input in paramsInputPassword"
             :key="input"
             v-model="input.model"
@@ -32,7 +44,7 @@
             lazy-rules
             :rules="input.rules"
             :type="this.isPasShowed ? 'text' : 'password'"
-            class="q-my-md"
+
           >
             <template v-slot:append>
               <q-icon
@@ -42,11 +54,67 @@
               />
             </template>
           </q-input>
+          <q-input
+            v-for="input in paramsTextAreas"
+            :key="input"
+            v-model="eventDescription"
+            :type="input.label"
+            autogrow
+            :label="input.label"
+          />
+          <q-input
+            v-for="input in paramsInputDates"
+            :key="input"
+            v-model="input.model"
+            :label="input.label"
+          >
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                  <q-date v-model="input.model" mask="YYYY-MM-DD HH:mm">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat/>
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+
+            <template v-slot:append>
+              <q-icon name="access_time" class="cursor-pointer">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                  <q-time v-model="input.model" mask="YYYY-MM-DD HH:mm" format24h>
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat/>
+                    </div>
+                  </q-time>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+          <q-uploader
+            v-for="uploader in paramsUploaders"
+            :key="uploader"
+            :url="uploader.url"
+            :label="uploader.label"
+            style="max-width: 300px"
+
+          />
+          <q-uploader
+            v-for="uploader in paramsUploadersMultiply"
+            :key="uploader"
+            :url="uploader.url"
+            :label="uploader.label"
+            multiple
+            style="max-width: 300px"
+
+          />
         </div>
         <div>
-          <q-btn label="Submit" type="submit" color="primary" class="q-mb-sm"/>
+          <q-btn :label="this.buttonText" type="submit" color="primary" class="q-mb-sm"/>
         </div>
-        <RegLogHelpText :parent-page="this.$route.path.replace('/', '')"/>
+        <RegLogHelpText v-if="this.formTypeName === 'Регистрация' || this.formTypeName === 'Вход'"
+                        :parent-page="this.$route.path.replace('/', '')"/>
       </q-form>
     </q-card>
   </div>
@@ -67,7 +135,7 @@ export default {
     ShowError,
     Tokens,
   ],
-  components:{
+  components: {
     RegLogHelpText,
   },
   props: {
@@ -82,6 +150,16 @@ export default {
     let password1 = ref('')
     let password2 = ref('')
     let isPasShowed = ref(false)
+    let eventName = ref('')
+    let countParticipants = ref()
+    let eventDescription = ref('')
+    let startDate = ref()
+    let endDate = ref()
+    let paramsTextAreas = []
+    let paramsInputNum = []
+    let paramsInputDates = []
+    let paramsUploaders = []
+    let paramsUploadersMultiply = []
 
     let paramsInput
     let paramsInputPassword
@@ -90,6 +168,7 @@ export default {
 
     if (this.formType === 'login') {
       this.formTypeName = "Вход"
+      this.buttonText = "Вход"
       paramsInput = [
         {
           model: email,
@@ -98,17 +177,18 @@ export default {
             val => val && val.length || 'Введите вашу почту',
             val => /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(val) || 'Формат почты: a@b.c'
           ],
+          type: "email"
         },
       ]
-      paramsInputPassword =  [{
+      paramsInputPassword = [{
         model: password1,
         label: 'Ваш пароль',
         rules: [val => val && val.length || 'Введите даныне'],
         type: "isPasShowed ? 'password' : 'text'",
       }]
-    }
-    else if (this.formType === 'registration') {
+    } else if (this.formType === 'registration') {
       this.formTypeName = "Регистрация"
+      this.buttonText = "Регистрация"
       paramsInput = [
         {
           model: email,
@@ -140,15 +220,76 @@ export default {
           rules: passwordRules,
         },
       ]
+
+    } else if (this.formType === 'create-event') {
+      this.formTypeName = "Создать событие"
+      this.buttonText = "Создать"
+      paramsInput = [
+        {
+          model: eventName,
+          label: 'Название Мероприятия',
+          rules: [
+            val => val && val.length || 'Введите данные'
+          ],
+          type: "text"
+        },
+      ]
+      paramsInputNum = [
+        {
+          model: countParticipants,
+          label: 'Количество участников',
+          rules: [
+            val => val && val.length || 'Введите данные',
+          ],
+          type: "text"
+        },
+      ]
+      paramsTextAreas = [
+        {
+          model: countParticipants,
+          label: 'Описание события',
+          type: "textarea"
+        },
+      ]
+      paramsInputDates = [
+        {
+          model: startDate,
+          label: 'Дата начала',
+        },
+        {
+          model: endDate,
+          label: 'Дата окончания',
+        },
+      ]
+      paramsUploaders = [
+        {
+          url: "",
+          label: 'Загрузить главное фото',
+        },
+      ]
+      paramsUploadersMultiply = [
+        {
+          url: "",
+          label: 'Загрузить дополнительные фото',
+        },
+      ]
     }
     return {
       paramsInput,
       paramsInputPassword,
+      paramsInputNum,
+      paramsTextAreas,
+      eventDescription,
       username,
       email,
       password1,
       password2,
       isPasShowed,
+      eventName,
+      countParticipants,
+      paramsInputDates,
+      paramsUploaders,
+      paramsUploadersMultiply,
     }
   },
   methods: {
@@ -183,9 +324,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.q-form{
+.q-form {
   width: 100%;
 }
+
 .form_box {
   border-radius: 25px;
   min-width: 350px;
@@ -195,18 +337,19 @@ export default {
   margin-left: 20px;
   margin-right: 20px;
 }
-@media screen and (max-width: 400px){
-  .form_box{
-    min-width:auto;
+
+@media screen and (max-width: 400px) {
+  .form_box {
+    min-width: auto;
     width: 100%;
     padding: 0;
   }
-  .inputs_box{
+  .inputs_box {
     //margin:0;
     margin-left: 10px;
     margin-right: 10px;
   }
-  h2{
+  h2 {
     padding: 0;
     font-size: 15vw;
   }

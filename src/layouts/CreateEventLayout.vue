@@ -1,12 +1,17 @@
 <template>
 <div class="content">
-<Form />
+<Form form-type="create-event"/>
 </div>
 </template>
 
 <script>
+import Form from "components/Form";
+import axios from "axios";
 export default {
-  name: "CreateEvent"
+  name: "CreateEvent",
+  components:{
+    Form,
+  }
 }
 </script>
 
