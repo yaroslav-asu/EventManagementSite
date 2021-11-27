@@ -15,6 +15,11 @@ const routes = [
     ]
   },
   {
+    path: '/event/:eventId',
+    component: () => import('pages/Event'),
+    props: true
+  },
+  {
     path: '/:catchAll(.*)*',
     component: () => import('pages/Error404.vue')
   }
