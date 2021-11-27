@@ -55,6 +55,10 @@ const routes = [
     ]
   },
   {
+    path: '/event/registration',
+    component: () => import('pages/EventRegistration')
+  },
+  {
     path: '/:catchAll(.*)*',
     component: () => import('pages/Error404.vue')
   }

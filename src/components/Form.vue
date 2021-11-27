@@ -179,6 +179,9 @@ export default {
     let paramsUploadersMultiply = []
     let isPrivate = ref(true)
 
+    let arrive_time = ref()
+    let depart_time = ref()
+
     let paramsInput
     let paramsInputPassword
 
@@ -309,6 +312,8 @@ export default {
       paramsUploaders,
       paramsUploadersMultiply,
       isPrivate,
+      arrive_time,
+      depart_time
     }
   },
   methods: {
