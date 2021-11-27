@@ -1,13 +1,12 @@
 <template>
   <div class="column justify-center items-center ">
-    <q-btn color="primary q-my-lg" to="/event-create">Создать новое мероприятие</q-btn>
+    <q-btn color="primary q-my-lg" to="/create-event">Создать новое мероприятие</q-btn>
     <div class="content row">
       <EventCard
         v-for="event in eventsList"
         :key="event"
         :photo-link="event.image"
         :placeLink="event.place"
-
         :reg-expiration-date="this.formatDate(event.date_time_start)"
         :title="event.title"
         :id="event.id"
