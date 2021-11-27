@@ -3,7 +3,7 @@ import {mapMutations, mapGetters} from "vuex";
 
 export default {
   methods: {
-    ...mapMutations(['setToken', 'clearToken']),
-    ...mapGetters(['getToken']),
+    ...mapMutations(['setToken', 'clearToken', "setEventUser"]),
+    ...mapGetters(['getToken', 'getEventUser']),
   },
 }

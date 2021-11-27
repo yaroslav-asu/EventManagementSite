@@ -111,7 +111,7 @@
           />
         </div>
         <div>
-          <q-btn :label="this.buttonText" type="submit" color="primary" class="q-mb-sm"/>
+          <q-btn style="margin-top: 5px" :label="this.buttonText" type="submit" color="primary" class="q-mb-sm"/>
         </div>
         <RegLogHelpText v-if="this.formTypeName === 'Регистрация' || this.formTypeName === 'Вход'"
                         :parent-page="this.$route.path.replace('/', '')"/>
@@ -127,6 +127,7 @@ import Constants from "src/mixins/Constants";
 import ShowError from "src/mixins/ShowError";
 import Tokens from "src/mixins/Tokens";
 import RegLogHelpText from "components/RegLogHelpText";
+import EventRegistration from "pages/EventRegistration";
 
 export default {
   name: "From",
@@ -143,6 +144,10 @@ export default {
       type: String,
       // required: true,
     },
+    eventRegistration: {
+      type: Object,
+      required: false
+    }
   },
   data() {
     let username = ref('')
@@ -277,6 +282,8 @@ export default {
         },
       ]
     } else if (this.formType === "EventRegistration") {
+      this.buttonText = "Зарегестрироваться";
+      this.formTypeName = "Регистрация на event"
       paramsInputDates = [{model: arrive_time, label: "Время прибытия"}, {model: depart_time, label: "Время отбытия"}];
     }
     return {
@@ -322,6 +329,9 @@ export default {
           this.$router.push('/')
         }).catch(err => {
           this.showError(err)
+        })
+      } else if (this.formType === "EventRegistration") {
+        axios.post(`${this.serverIp}api/participants_of_the_event`, {event: this.eventRegistration.event, user: this.eventRegistration.user,
         })
       }
 

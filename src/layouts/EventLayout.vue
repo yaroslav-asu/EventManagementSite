@@ -26,11 +26,10 @@
       </div>
       <div class="event_header_center" v-if="this.getToken()">
         <div class="event_header_center_row">
-          <q-btn v-on:click="redirectRegister" v-if="isModerator" push color="white" text-color="primary" label="Изменить event"/>
+          <q-btn v-if="isModerator" push color="white" text-color="primary" label="Изменить event"/>
         </div>
         <div class="event_header_center_row">
-          <q-toggle
-            left-label
+          <q-btn v-on:click="redirectRegister"
             label="Зарегистрироваться"
             v-model="registered"
           />
@@ -130,11 +129,12 @@ export default {
         this.finish_date = this.finish.toISOString().substring(0, 10);
         this.finish_time = this.finish.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 
-        this.exp = new Date(EventInstance["date_time_start"]); //TODO
+        this.exp = new Date(EventInstance["date_time_start"]);
         this.exp_date = this.exp.toISOString().substring(0, 10);
         this.exp_time = this.exp.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 
         this.moderators = EventInstance["moderators"];
+
 
         this.checkForRights();
 
@@ -150,6 +150,7 @@ export default {
         (response) => {
           const id = response.data["pk"];
           this.getParticipants(id)
+          this.setEventUser(this.eventId, id);
         }
       )
     },
@@ -163,7 +164,7 @@ export default {
       )
     },
     redirectRegister() {
-      this.$route.push("/event/registration");
+      this.$router.push("/event/registration");
     }
   },
   mounted() {

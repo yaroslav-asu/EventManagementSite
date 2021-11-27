@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Form form-type="EventRegistration"/>
+    <Form form-type="EventRegistration" :event-registration="eventRegistration"/>
   </div>
 </template>
 
@@ -9,9 +9,14 @@ import Form from "components/Form";
 
 export default {
   name: "EventRegistrationLayout",
-  components: [
+  props: {
+    eventRegistration: {
+      type: Object
+    }
+  },
+  components: {
     Form
-  ]
+  }
 }
 </script>
 
