@@ -7,8 +7,10 @@
     </div>
     <div class="">
 
-      <p>Место проведения: {{ place }}</p>
-      <p>Регестрация до: {{ regExpirationDate }}</p>
+      <p>Место проведения: </p>
+      <p>{{ placeName }} {{ placeAddress }}</p>
+      <p>Регестрация до: </p>
+      <p>{{ regExpirationDate }}</p>
       <q-btn class="q-mb-sm" :to="'/event/' + id" color="primary">Подробнее</q-btn>
     </div>
   </div>
@@ -16,19 +18,37 @@
 
 <script>
 import axios from "axios";
-import Constants from "src/mixins/Constants";
+import ShowError from "src/mixins/ShowError";
+import {ref} from "vue";
 
 export default {
   name: "Event",
+  mixins: [
+    ShowError,
+  ],
   props: [
-    'place',
+    'placeLink',
     'regExpirationDate',
     'photoLink',
     'title',
     'id'
   ],
   data() {
-    return {}
+    let placeName = ref('')
+    let placeAddress = ref('')
+    axios.get(this.placeLink)
+      .then(res => {
+        placeName = res.data.name
+        placeAddress = res.data.address
+        console.log(res)
+      }).catch(
+      err => {
+        this.showError(err)
+      })
+    return {
+      placeName,
+      placeAddress
+    }
   }
 }
 </script>
@@ -36,6 +56,6 @@ export default {
 <style lang="scss" scoped>
 .event_card {
   border-radius: 15px;
-  max-width: 20vw;
+  min-width: 15vw;
 }
 </style>

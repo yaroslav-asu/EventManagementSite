@@ -161,6 +161,7 @@ export default {
           password2: this.password2
         }).then(res => {
           this.setToken(res.data.key)
+          this.$router.push('/')
         }).catch(err => {
           this.showError(err)
         })
@@ -170,6 +171,7 @@ export default {
           password: this.password1,
         }).then(res => {
           this.setToken(res.data.key)
+          this.$router.push('/')
         }).catch(err => {
           this.showError(err)
         })

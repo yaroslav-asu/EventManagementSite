@@ -79,7 +79,7 @@ export default {
         }
       })
         .then(response => {
-          console.log(response)
+          // console.log(response)
           this.userName = response.data.email
         })
     }

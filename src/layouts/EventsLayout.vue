@@ -1,13 +1,14 @@
 <template>
-  <HeaderLayout/>
   <div class="column justify-center items-center ">
-    <q-btn color="primary q-my-lg">Создать новое мероприятие</q-btn>
+    <q-btn color="primary q-my-lg" to="/event-create">Создать новое мероприятие</q-btn>
     <div class="content row">
       <EventCard
-        v-for="event in a"
-        :photo-link="event.image"
+        v-for="event in eventsList"
         :key="event"
-        :reg-expiration-date="event.date_time_start"
+        :photo-link="event.image"
+        :placeLink="event.place"
+
+        :reg-expiration-date="this.formatDate(event.date_time_start)"
         :title="event.title"
         :id="event.id"
       />
@@ -31,7 +32,6 @@ export default {
     // Constants,
   ],
   components: {
-    HeaderLayout,
     EventCard,
   },
   mounted() {
@@ -39,19 +39,26 @@ export default {
 
   },
   data() {
-    let a = ref([])
+    let eventsList = ref([])
     axios.get(ServerIp.serverIp + 'api/events/')
       .then(res => {
-        console.log(res)
-        for (let i = 0; i < 3; i++) {
-          a.value.push(res.data.results[i])
+        for (let i = 0; i < res.data.count; i++) {
+          eventsList.value.push(res.data.results[i])
         }
       }).catch(err => {
       this.showError(err)
     })
-    console.log(a)
     return {
-      a,
+      eventsList,
+    }
+  },
+  methods: {
+    formatDate(rawDate) {
+      let date = new Date(rawDate)
+      return date.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      }).toString() + " " + date.toISOString().substring(0, 10).toString().split('-').reverse().join('.')
     }
   }
 }

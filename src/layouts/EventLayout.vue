@@ -1,4 +1,3 @@
-
 <template>
   <div class="event_main_content">
     <div class="event_header">{{ title }}</div>
@@ -99,7 +98,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.limiter{
+  margin-left: 5vw;
+  margin-right: 5vw;
+}
 .event_main_content {
   height: 100vh;
   display: flex;

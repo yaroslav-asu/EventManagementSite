@@ -34,6 +34,13 @@ const routes = [
     ]
   },
   {
+    path: '/create-event',
+    component: () => import('layouts/CreateEventLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/CreateEvent.vue') }
+    ]
+  },
+  {
     path: '/:catchAll(.*)*',
     component: () => import('pages/Error404.vue')
   }
