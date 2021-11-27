@@ -86,7 +86,7 @@
             v-model="isPrivate"
           />
         </div>
-          <PersonsList v-model="speakers" name="Спикеры" style="flex-grow:1"/>
+        <PersonsList v-model="speakers" name="Спикеры" style="flex-grow:1"/>
       </div>
       <div class="row justify-between">
         <PersonsList v-model="moderators" name="Модераторы"/>

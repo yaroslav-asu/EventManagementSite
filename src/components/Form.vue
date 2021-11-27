@@ -55,6 +55,7 @@
             </template>
           </q-input>
           <q-input
+            class="q-my-md"
             v-for="input in paramsTextAreas"
             :key="input"
             v-model="eventDescription"
@@ -63,6 +64,7 @@
             :label="input.label"
           />
           <q-input
+            class="q-my-md"
             v-for="input in paramsInputDates"
             :key="input"
             v-model="input.model"
@@ -71,7 +73,7 @@
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="input.model" mask="YYYY-MM-DD HH:mm">
+                  <q-date v-model="input.model" mask="HH:mm DD-MM-YYYY">
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat/>
                     </div>
@@ -83,7 +85,7 @@
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-time v-model="input.model" mask="YYYY-MM-DD HH:mm" format24h>
+                  <q-time v-model="input.model" mask="HH:mm DD-MM-YYYY" format24h>
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat/>
                     </div>
@@ -93,6 +95,7 @@
             </template>
           </q-input>
           <q-uploader
+            class="q-my-md"
             v-for="uploader in paramsUploaders"
             :key="uploader"
             :url="uploader.url"
@@ -101,14 +104,26 @@
 
           />
           <q-uploader
+            class="q-my-md"
             v-for="uploader in paramsUploadersMultiply"
             :key="uploader"
             :url="uploader.url"
             :label="uploader.label"
             multiple
             style="max-width: 300px"
-
           />
+          <q-toggle
+            class="q-my-md"
+            label="Приватное ли мероприятие?"
+            v-model="isPrivate"
+            v-if="formType === 'create-event'"
+          />
+          <div class="row">
+            <PersonsList style="width: 45%" name="VIP's"/>
+            <PersonsList style="width: 45%" name="Модераторы"/>
+            <PersonsList style="width: 45%" name="Спикеры"/>
+            <PersonsList style="width: 45%" name="Спонсоры"/>
+          </div>
         </div>
         <div>
           <q-btn :label="this.buttonText" type="submit" color="primary" class="q-mb-sm"/>
@@ -127,6 +142,7 @@ import Constants from "src/mixins/Constants";
 import ShowError from "src/mixins/ShowError";
 import Tokens from "src/mixins/Tokens";
 import RegLogHelpText from "components/RegLogHelpText";
+import PersonsList from "components/PersonsList";
 
 export default {
   name: "From",
@@ -137,6 +153,7 @@ export default {
   ],
   components: {
     RegLogHelpText,
+    PersonsList,
   },
   props: {
     formType: {
@@ -160,6 +177,7 @@ export default {
     let paramsInputDates = []
     let paramsUploaders = []
     let paramsUploadersMultiply = []
+    let isPrivate = ref(true)
 
     let paramsInput
     let paramsInputPassword
@@ -290,6 +308,7 @@ export default {
       paramsInputDates,
       paramsUploaders,
       paramsUploadersMultiply,
+      isPrivate,
     }
   },
   methods: {

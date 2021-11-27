@@ -41,6 +41,20 @@ const routes = [
     ]
   },
   {
+    path: '/change-event',
+    component: () => import('layouts/ChangeEventLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/ChangeForm.vue') }
+    ]
+  },
+  {
+    path: '/test',
+    component: () => import('layouts/TestLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Test.vue') }
+    ]
+  },
+  {
     path: '/:catchAll(.*)*',
     component: () => import('pages/Error404.vue')
   }
