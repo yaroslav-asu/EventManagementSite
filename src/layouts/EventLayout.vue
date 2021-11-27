@@ -24,6 +24,18 @@
           </q-item>
         </q-list>
       </div>
+      <div class="event_header_center" v-if="this.getToken()">
+        <div class="event_header_center_row">
+          <q-btn v-if="isModerator" push color="white" text-color="primary" label="Изменить event"/>
+        </div>
+        <div class="event_header_center_row">
+          <q-toggle
+            left-label
+            label="Зарегистрироваться"
+            v-model="registered"
+          />
+        </div>
+      </div>
       <div class="event_header_right">
         <q-img class="event_main_image fit" src="{{image}}"></q-img>
       </div>
@@ -33,7 +45,7 @@
         О событии
       </div>
       <div class="event_about_text">
-        {{description}}
+        {{ description }}
       </div>
     </div>
     <div class="gallery">
@@ -44,7 +56,7 @@
         navigation
         infinite
       >
-        <q-carousel-slide class="carousel_image" v-for="(image, i) in images" :key="i" :img-src="image" :name="i" >
+        <q-carousel-slide class="carousel_image" v-for="(image, i) in images" :key="i" :img-src="image" :name="i">
         </q-carousel-slide>
       </q-carousel>
     </div>
@@ -54,22 +66,27 @@
 <script>
 import axios from "axios";
 import Constants from "src/mixins/Constants";
-import { ref } from 'vue'
-import { useQuasar } from 'quasar'
+import {ref} from 'vue'
+import {useQuasar} from 'quasar'
+import Tokens from "src/mixins/Tokens";
 
 export default {
   name: "EventLayout",
-  mixins: [Constants],
+  mixins: [Constants, Tokens],
   props: {
     eventId: {
       default: 0
     }
   },
   data() {
-    return{
+    return {
+      registered: false,
+      value: ref(true),
       slide: ref(1),
       organizer: 0,
       date_time_start: null,
+
+      moderators: [],
 
       date_time_finish: null,
       image: null,
@@ -77,7 +94,6 @@ export default {
       title: null,
 
       images: ["https://i.ibb.co/H7PHwF7/fe8c3271f7a9.jpg", "https://i.ibb.co/jyrbLTk/73ae413457f6.jpg"],
-
 
       description: "Встретил как-то Владимир Симкин Захара Холмова. Разговорились. А жизнь вся такая - уходят звезды, пыль летит по вселенной, умирают микробы, гаснут солнца, черные дыры засасывают свет, и куда этот свет девается? От людей только и остается, что эпитафия в цветочках.  И вот он не выдержал, похвастался, какую свинью вы мне подложили. А та, на кого он положил глаз, сидела на той же помойке и красила ногти. Но это ее совсем не огорчило, а развеселило. Потом он снова встретил этого Захара.  И говорит ему так: ты себе такую свинью нажил, что сам в ней купаешься. А Захар в ответ: а как же твоя водка? Но тут та, о которой он только что мечтал, потеряла к нему всякий интерес.\n",
 
@@ -90,13 +106,16 @@ export default {
       exp_date: null,
       exp_time: null,
 
+      isModerator: false
+
     }
   },
   methods: {
     getEvent() {
-      this.$q.loading.show({
+      /**this.$q.loading.show({
         delay: 800
       })
+       **/
       axios.get(`${this.serverIp}api/events/${this.eventId}`).then((response) => {
         const EventInstance = response.data;
         this.organizer = EventInstance["owner"];
@@ -115,9 +134,9 @@ export default {
         this.exp_date = this.exp.toISOString().substring(0, 10);
         this.exp_time = this.exp.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 
-        this.description = EventInstance['description']
+        this.moderators = EventInstance["moderators"];
 
-        this.$q.loading.hide();
+        this.checkForRights();
 
       }).catch((error) => {
         //this.$router.push("/404")
@@ -126,17 +145,43 @@ export default {
     redirect() {
       this.$router.push(`/profile/${this.organizer}`)
     },
-    setup () {
-      const $q = useQuasar();
+    checkForRights() {
+      axios.get(`${this.serverIp}api/auth/user`, {headers: {Authorization: "Token " + this.getToken()}}).then(
+        (response) => {
+          const id = response.data["pk"];
+          this.getParticipants(id)
+        }
+      )
+    },
+    getParticipants(id) {
+      axios.get(`${this.serverIp}api/participants_of_the_event/`, {data: {event: this.eventId, user: id}}).then(
+        (response) => {
+          if (response.data["moderator"] || response.data["owner"]) {
+            this.isModerator = true;
+          }
+        }
+      )
     }
   },
   mounted() {
     this.getEvent();
+  },
+  setup() {
+    const $q = useQuasar();
   }
+
 }
 </script>
 
 <style lang="scss" scoped>
+
+.event_header_center {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 
 .carousel_image {
   background-size: contain;
@@ -165,6 +210,17 @@ export default {
   display: flex;
   flex-direction: column;
   margin-top: 50px;
+}
+
+.event_header_center_row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  column-gap: 20px;
+  margin: 20px;
+  width: max-content;
+  color: $primary;
+  font-size: 1.2vw;
 }
 
 .event_header_external_information {
@@ -224,6 +280,7 @@ export default {
   height: 100%;
 }
 
+
 @media screen and (max-width: 800px) {
   .event_header_information {
     flex-direction: column-reverse;
@@ -235,6 +292,9 @@ export default {
   .text-caption {
     font-size: 3.1vw;
     color: black;
+  }
+  .event_header_center_row {
+    font-size: 3vw;
   }
 }
 
