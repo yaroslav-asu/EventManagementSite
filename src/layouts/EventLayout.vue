@@ -208,7 +208,7 @@ export default {
 
 .event_information_field {
   font-size: 1.5vw;
-  color: black;
+  color: grey;
 
 }
 

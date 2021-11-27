@@ -20,6 +20,27 @@ const routes = [
     props: true
   },
   {
+    path: '/login',
+    component: () => import('layouts/LoginLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Login.vue') }
+    ]
+  },
+  {
+    path: '/events',
+    component: () => import('layouts/EventsLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Events.vue') }
+    ]
+  },
+  {
+    path: '/create-event',
+    component: () => import('layouts/CreateEventLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/CreateEvent.vue') }
+    ]
+  },
+  {
     path: '/:catchAll(.*)*',
     component: () => import('pages/Error404.vue')
   }
