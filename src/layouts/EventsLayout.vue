@@ -1,14 +1,17 @@
 <template>
   <HeaderLayout/>
-
-  <div class="content row">
-    <EventCard
-      v-for="event in a"
-      :key="event"
-      :reg-expiration-date="event.date_time_start"
-      :title="event.title"
-      :id="event.id"
-    />
+  <div class="column justify-center items-center ">
+    <q-btn color="primary q-my-lg">Создать новое мероприятие</q-btn>
+    <div class="content row">
+      <EventCard
+        v-for="event in a"
+        :photo-link="event.image"
+        :key="event"
+        :reg-expiration-date="event.date_time_start"
+        :title="event.title"
+        :id="event.id"
+      />
+    </div>
   </div>
 </template>
 

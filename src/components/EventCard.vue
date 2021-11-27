@@ -1,12 +1,16 @@
 <template>
-  <div class="event_card shadow-1 q-mx-md text-center justify-center">
-    <h5>{{title}}</h5>
+
+  <div class="event_card shadow-1 column q-mx-md text-center justify-between q-pa-md">
+    <h5>{{ title }}</h5>
     <div class="event_img">
-      <img :src="photoLink" alt="Фото мероприятия">
+      <img :src="photoLink" alt="Фото мероприятия" class="fit">
     </div>
-    <p>Место проведения: {{ place }}</p>
-    <p>Регестрация до: {{ regExpirationDate }}</p>
-    <q-btn class="q-mb-md" :to="'/event' + id">Подробнее</q-btn>
+    <div class="">
+
+      <p>Место проведения: {{ place }}</p>
+      <p>Регестрация до: {{ regExpirationDate }}</p>
+      <q-btn class="q-mb-sm" :to="'/event/' + id" color="primary">Подробнее</q-btn>
+    </div>
   </div>
 </template>
 
@@ -16,7 +20,7 @@ import Constants from "src/mixins/Constants";
 
 export default {
   name: "Event",
-  props:[
+  props: [
     'place',
     'regExpirationDate',
     'photoLink',
@@ -24,20 +28,14 @@ export default {
     'id'
   ],
   data() {
-    // place = 'г.Ханты-Мансийск ул.Объездная д.6 кв.111'
-    // regExpirationDate = '28.01.2021'
-    // axios.get(this.serverIp + 'api/events/')
-    //   .then(res => {
-    //     regExpirationDate = res.data.results[]
-    //   })
-    return {
-    }
+    return {}
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.event_card{
+.event_card {
   border-radius: 15px;
+  max-width: 20vw;
 }
 </style>

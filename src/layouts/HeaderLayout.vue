@@ -7,7 +7,9 @@
         inline-label
         class="text-primary "
       >
+        <q-route-tab label="Главная" to="/"/>
         <q-route-tab label="Каталог Мероприятий" to="/events"/>
+
 <!--        <q-route-tab label="Рейтинг" to="/rating"/>-->
       </q-tabs>
       <div class="user_name_box row justify-end items-center" v-if="this.getToken()">
