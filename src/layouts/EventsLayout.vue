@@ -1,12 +1,13 @@
 <template>
   <HeaderLayout/>
 
-  <div class="content">
+  <div class="content row">
     <EventCard
-      v-for="event in events"
-      v-bind:key="event"
-      v-bind:photo-link="event.image"
-      v-bind:reg-expiration-date="event.date_time_start"
+      v-for="event in a"
+      :key="event"
+      :reg-expiration-date="event.date_time_start"
+      :title="event.title"
+      :id="event.id"
     />
   </div>
 </template>
@@ -18,6 +19,8 @@ import axios from "axios";
 import Constants from "src/mixins/Constants.js";
 import ShowError from "src/mixins/ShowError";
 import ServerIp from "src/global_values/ServerIp";
+import {ref} from "vue";
+
 export default {
   name: "EventsLayout",
   mixins: [
@@ -28,24 +31,24 @@ export default {
     HeaderLayout,
     EventCard,
   },
-  mounted(){
+  mounted() {
 
 
   },
   data() {
-    // console.log(ServerIp.serverIp)
-    let events
+    let a = ref([])
     axios.get(ServerIp.serverIp + 'api/events/')
       .then(res => {
-        events = res.data.results
+        console.log(res)
         for (let i = 0; i < 3; i++) {
-          console.log(res.data.results[i])
+          a.value.push(res.data.results[i])
         }
       }).catch(err => {
       this.showError(err)
     })
+    console.log(a)
     return {
-      events,
+      a,
     }
   }
 }
