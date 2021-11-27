@@ -22,6 +22,13 @@ const routes = [
     ]
   },
   {
+    path: '/events',
+    component: () => import('layouts/EventsLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Events.vue') }
+    ]
+  },
+  {
     path: '/:catchAll(.*)*',
     component: () => import('pages/Error404.vue')
   }

@@ -186,11 +186,27 @@ export default {
 }
 .form_box {
   border-radius: 25px;
-  min-width: 350px
+  min-width: 350px;
 }
 
 .inputs_box {
   margin-left: 20px;
   margin-right: 20px;
+}
+@media screen and (max-width: 400px){
+  .form_box{
+    min-width:auto;
+    width: 100%;
+    padding: 0;
+  }
+  .inputs_box{
+    //margin:0;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  h2{
+    padding: 0;
+    font-size: 15vw;
+  }
 }
 </style>

@@ -1,117 +1,53 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+  <div class="">
+    <HeaderLayout/>
+    <div class="column justify-center items-center text-center">
+      <h3>Lorem ipsum dolor sit amet</h3>
+      <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur cum exercitationem neque officiis quo,
+        similique. A consequuntur dolorum ea fugiat fugit id, nam nesciunt omnis placeat ratione rerum similique
+        velit!</h5>
+      <h5>
+        <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias aliquam assumenda at, beatae
+          delectus dolore eaque expedita impedit maxime modi neque nisi officiis quam quis ratione suscipit veritatis.
+          Eaque.
+        </div>
+        <div>Est eum facere repudiandae sint? Laboriosam laborum magnam officia possimus quia quidem quisquam rem
+          temporibus veritatis. Ad autem commodi consectetur eligendi eveniet excepturi magni nobis, praesentium quidem
+          quos soluta voluptatem!
+        </div>
+        <div>A ab amet blanditiis consectetur corporis, cum ducimus earum enim, facere natus odio omnis, porro quas
+          saepe sequi similique tenetur! Assumenda at deleniti dicta laboriosam laudantium non repellat tempora
+          voluptas.
+        </div>
+        <div>Adipisci aperiam excepturi mollitia porro quisquam tempore! Doloremque inventore ipsum minus quaerat! Cum
+          error esse, explicabo impedit ipsam, nesciunt nulla officia ratione repellat repellendus sed, temporibus!
+          Eaque earum facilis recusandae.
+        </div>
+        <div>Dolores itaque nobis quis recusandae sit tempore veniam. Consectetur cupiditate delectus dolore doloribus
+          est nesciunt, omnis porro rem reprehenderit tenetur! Earum eveniet in magnam provident quae reprehenderit
+          saepe sed tempora!
+        </div>
+      </h5>
+    </div>
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-  </q-layout>
+  </div>
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
+import HeaderLayout from "layouts/HeaderLayout";
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
-
-import { defineComponent, ref } from 'vue'
-
-export default defineComponent({
-  name: 'MainLayout',
-
+export default {
+  name: "MainLayout",
   components: {
-    EssentialLink
+    HeaderLayout,
   },
-
-  setup () {
-    const leftDrawerOpen = ref(false)
-
-    return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
-})
+}
 </script>
+
+<style lang="scss" scoped>
+@media screen and (max-width: 450px) {
+  header{
+    justify-content: center;
+  }
+}
+</style>
