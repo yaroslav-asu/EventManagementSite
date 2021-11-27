@@ -1,5 +1,5 @@
 <template>
-  <router-view />
+  <router-view class="limiter" />
 </template>
 <script>
 import { defineComponent } from 'vue';

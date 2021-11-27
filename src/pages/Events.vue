@@ -1,12 +1,17 @@
 <template>
-<div class="">
-
-</div>
+  <EventLayout :event-id="eventId"/>
 </template>
 
 <script>
+import EventLayout from "layouts/EventLayout";
 export default {
-  name: "Event"
+  name: "Event",
+  components: {EventLayout},
+  props: {
+     eventId: {
+       default: 0
+     }
+  }
 }
 </script>
 
