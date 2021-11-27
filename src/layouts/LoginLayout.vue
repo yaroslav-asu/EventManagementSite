@@ -1,19 +1,19 @@
 <template>
-  <div class="">
-    <Form form-type="registration"/>
+  <div class="content">
+  <Form form-type="login"/>
   </div>
 </template>
 
 <script>
 import Form from "components/Form";
 export default {
-  name: "RegistrationLayout",
-  components: {
+  name: "LoginLayout",
+  components:{
     Form,
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>
