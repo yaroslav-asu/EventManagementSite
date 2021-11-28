@@ -142,7 +142,7 @@ import Constants from "src/mixins/Constants";
 import ShowError from "src/mixins/ShowError";
 import Tokens from "src/mixins/Tokens";
 import RegLogHelpText from "components/RegLogHelpText";
-import PersonsList from "components/PersonsList";
+import PersonsList from "components/SpeakersPersons";
 
 export default {
   name: "From",

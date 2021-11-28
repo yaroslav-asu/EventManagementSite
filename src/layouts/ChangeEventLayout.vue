@@ -108,7 +108,7 @@
 
 <script>
 import Form from "components/Form";
-import PersonsList from "components/PersonsList";
+import PersonsList from "components/SpeakersPersons";
 import axios from "axios";
 import {ref} from "vue";
 

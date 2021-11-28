@@ -158,6 +158,10 @@ export default {
   padding: 0;
 }
 
+.gallery {
+  height: 100%;
+}
+
 @media screen and (max-width: 800px) {
   .event_header_information {
     flex-direction: column-reverse;

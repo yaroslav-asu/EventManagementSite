@@ -8,9 +8,9 @@ export default {
   name: "Event",
   components: {EventLayout},
   props: {
-    eventId: {
-      default: 0
-    }
+     eventId: {
+       default: 0
+     }
   }
 }
 </script>

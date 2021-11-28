@@ -5,11 +5,12 @@
 </template>
 
 <script>
-import PersonsList from "components/PersonsList";
+import PersonsList from "components/SpeakersPersons";
 export default {
   name: "TestLayout",
   components: {
     PersonsList,
+
   }
 }
 </script>

@@ -86,12 +86,12 @@
             v-model="isPrivate"
           />
         </div>
-          <PersonsList v-model="speakers" name="Спикеры" style="flex-grow:1"/>
+          <SpeakersPersons type="speakers" name="Спикеры" style="flex-grow:1"/>
       </div>
       <div class="row justify-between">
-        <PersonsList v-model="moderators" name="Модераторы"/>
-        <PersonsList v-model="vips" name="VIP's"/>
-        <PersonsList v-model="sponsors" name="Спонсоры"/>
+        <ModeratorsList type="moderators" name="Модераторы"/>
+        <VipsList type="vips" name="VIP's"/>
+        <SponsorsList type="sponsors" name="Спонсоры"/>
       </div>
 
       <q-input
@@ -108,15 +108,22 @@
 
 <script>
 import Form from "components/Form";
-import PersonsList from "components/PersonsList";
+import PersonsList from "components/SpeakersPersons";
 import axios from "axios";
 import {ref} from "vue";
+import ModeratorsList from "components/ModeratorsList";
+import VipsList from "components/VipsList";
+import SpeakersPersons from "src/components/SpeakersPersons";
+import SponsorsList from "components/SponsorsList";
 
 export default {
   name: "CreateEvent",
   components: {
+    ModeratorsList,
     // Form,
-    PersonsList,
+    SponsorsList,
+    VipsList,
+    SpeakersPersons,
   },
   data(){
     return {
@@ -124,10 +131,6 @@ export default {
       startDate: ref(),
       endDate: ref(),
       isPrivate: ref(false),
-      speakers: ref([]),
-      moderators: ref([]),
-      vips: ref([]),
-      sponsors: ref([]),
       eventDescription: ref(''),
     }
   },

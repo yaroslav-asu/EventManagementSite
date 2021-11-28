@@ -28,25 +28,30 @@ import {ref} from "vue";
 import {mapMutations, mapGetters} from "vuex";
 
 export default {
-  name: "PersonsList",
+  name: "SponsorsList",
   props: [
     'personsList',
     'name',
   ],
+  mounted() {
+    for (let per in this.personsList) {
+      this.perList.push(per)
+    }
+  },
   methods: {
+
     onClick() {
-      this.addPersons("moderators", this.text)
+      this.addSponsors(this.text)
 
       this.text = ''
     },
-    ...mapMutations(['addPersons']),
-    ...mapGetters(['getPersons']),
+    ...mapMutations(['addSponsors']),
+    ...mapGetters(['getSponsors']),
   },
   data() {
 
     return {
-      perList: this.getPersons()
-      ,
+      perList:this.getSponsors(),
       text: ref('')
     }
   }

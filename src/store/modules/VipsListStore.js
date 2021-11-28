@@ -2,17 +2,17 @@ import {ref} from "vue";
 
 export default {
   state: {
-    personsList: ref([])
+    vipsList: ref([])
   },
   mutations: {
-    addPersons(state, person) {
-      state.personsList.push(person)
+    addVips(state, person) {
+      state.vipsList.push(person)
       // state.personsList.push(person)
     }
   },
   getters: {
-    getPersons(state) {
-      return state.personsList
+    getVips(state) {
+      return state.vipsList
     }
   }
 }
