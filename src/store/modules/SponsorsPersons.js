@@ -10,7 +10,7 @@ export default {
       // state.personsList.push(person)
     },
     clearSponsors(state){
-      state = ref([])
+      state.sponsorsList = []
     }
   },
   getters: {

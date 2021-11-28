@@ -1,5 +1,5 @@
 <template>
-  <div class="person_list column justify-between items-center shadow-2 q-pa-md q-my-md text-center">
+  <div class="person_list column justify-between items-center shadow-2 q-pa-md q-ma-md text-center">
     <h5 class="q-mt-sm">{{ name }}</h5>
     <q-list>
       <q-item
@@ -13,7 +13,6 @@
     <q-input borderless v-model="text" label="Email" :rules="[
             val => /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(val) || 'Формат почты: a@b.c'
           ]">
-
       <template v-slot:append>
         <q-icon
           v-if="/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(text)"
@@ -42,7 +41,6 @@ export default {
 
     onClick() {
       this.addVips(this.text)
-
       this.text = ''
     },
     ...mapMutations(['addVips']),

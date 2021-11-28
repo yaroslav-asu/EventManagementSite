@@ -3,11 +3,8 @@
 
     <form class="text-center shadow-4 q-pa-lg">
       <h4>Создать Мероприятие</h4>
-      <q-input
-        label="Название мероприятия"
-        v-model="eventName"
-      />
-      <div class="row">
+
+      <div class="row justify-center">
         <q-uploader
           class="q-ma-md"
           label="Основная картинка"
@@ -20,6 +17,10 @@
           multiple
         />
       </div>
+      <q-input
+        label="Название мероприятия"
+        v-model="eventName"
+      />
       <div class="row">
         <div class="column justify-between">
           <q-input
@@ -80,16 +81,33 @@
               </q-icon>
             </template>
           </q-input>
+          <q-input
+            label="Количество участников"
+            v-model.number="participantsCount"
+            type="number"
+            class="q-ma-md"
+            style="flex-grow: 1"
+          />
           <q-toggle
             class="q-my-md"
             label="Приватное ли мероприятие?"
             v-model="isPrivate"
+
+          />
+          <q-btn @click="onFindAd">Найти адреса</q-btn>
+          <q-select
+            :options="this.addresses"
+            label="Посмотреть подходящие здания"
+            class="q-ma-md"
+            :disable="!(Boolean(this.participantsCount )&& Boolean(this.startDate) && Boolean(this.endDate)  && Boolean(this.isFindAddressesActive))"
+            v-model="selectedPlace"
           />
         </div>
-          <SpeakersPersons type="speakers" name="Спикеры" style="flex-grow:1"/>
-      </div>
-      <div class="row justify-between">
+        <SpeakersPersons type="speakers" name="Спикеры" style="flex-grow:1"/>
         <ModeratorsList type="moderators" name="Модераторы"/>
+      </div>
+      <div class="row justify-center">
+
         <VipsList type="vips" name="VIP's"/>
         <SponsorsList type="sponsors" name="Спонсоры"/>
       </div>
@@ -101,7 +119,7 @@
         autogrow
         label="Описание"
       />
-      <q-btn color="primary" @click="onCLick">Создать</q-btn>
+      <q-btn color="primary" @click="onSubmit">Создать</q-btn>
     </form>
   </div>
 </template>
@@ -116,6 +134,8 @@ import VipsList from "components/VipsList";
 import SpeakersPersons from "src/components/SpeakersPersons";
 import SponsorsList from "components/SponsorsList";
 import {mapGetters, mapMutations} from "vuex";
+import ServerIp from "src/global_values/ServerIp";
+import ShowError from "src/mixins/ShowError";
 
 export default {
   name: "CreateEvent",
@@ -126,18 +146,55 @@ export default {
     VipsList,
     SpeakersPersons,
   },
-  data(){
+  data() {
+
     return {
       eventName: ref(''),
-      startDate: ref(),
-      endDate: ref(),
+      startDate: ref(''),
+      endDate: ref(''),
       isPrivate: ref(false),
       eventDescription: ref(''),
+      buildingName: ref(''),
+      address: ref(''),
+      participantsCount: ref(),
+      selectedPlace: ref(null),
+      addresses: ref([]),
+      isFindAddressesActive: ref(false),
     }
   },
-  methods:{
-...mapMutations(['clearModerators', 'clearSpeakers', 'clearSponsors', 'clearVips']),
-    onCLick(){
+  methods: {
+    prepareDate(date) {
+      let splitted_date = date.split(' ')[1].split('.')
+      return splitted_date.reverse().join('-')
+    },
+    getAddresses() {
+      let addresses = []
+      axios.get(ServerIp.serverIp + 'api/premises/', {
+        params: {
+          date_start: this.prepareDate(this.startDate),
+          date_finish: this.prepareDate(this.endDate),
+          capacity: this.participantsCount
+        }
+      }).then(res => {
+        for (let i = 0;  i < res.data.length; i++){
+          axios.get(ServerIp.serverIp + 'api/places/' + res.data[i])
+            .then(res =>{
+              // console.log(res)
+              addresses.push(res.data.name + " " + res.data.address)
+          })
+            .catch(err => this.showError(err))
+        }
+      }).catch(err => this.showError(err))
+      // console.log(addresses)
+      return addresses
+    },
+    onFindAd(){
+      for (let i in this.getAddresses() ){
+        this.addresses.push(i)
+      }
+    },
+    ...mapMutations(['clearModerators', 'clearSpeakers', 'clearSponsors', 'clearVips']),
+    onSubmit() {
       this.clearModerators()
       this.clearSpeakers()
       this.clearVips()

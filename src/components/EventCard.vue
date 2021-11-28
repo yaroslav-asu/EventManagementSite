@@ -1,6 +1,6 @@
 <template>
 
-  <div class="event_card shadow-1 column q-mx-md text-center justify-between q-pa-md">
+  <div class="event_card shadow-1 column q-ma-md text-center justify-between q-pa-md">
     <h5>{{ title }}</h5>
     <div class="event_img">
       <img :src="photoLink" alt="Фото мероприятия" class="fit">
@@ -56,6 +56,6 @@ export default {
 <style lang="scss" scoped>
 .event_card {
   border-radius: 15px;
-  min-width: 15vw;
+  width: 30%;
 }
 </style>

@@ -10,7 +10,7 @@ export default {
       // state.personsList.push(person)
     },
     clearModerators(state){
-      state = ref([])
+      state.moderatorsList = []
     }
   },
   getters: {

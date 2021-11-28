@@ -5,7 +5,7 @@
       <q-tabs
         v-model="tab"
         inline-label
-        class="text-primary "
+        class="text-primary"
       >
         <q-route-tab label="Главная" to="/"/>
         <q-route-tab label="Каталог Мероприятий" to="/events"/>
@@ -18,6 +18,11 @@
         </div>
         <q-menu fit>
           <q-list>
+            <q-item clickable to="/account">
+              <q-item-section>
+                Аккаунт
+              </q-item-section>
+            </q-item>
             <q-item clickable @click="exit">
               <q-item-section>
                 Выход

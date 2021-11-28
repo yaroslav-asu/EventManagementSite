@@ -1,5 +1,5 @@
 <template>
-  <div class="person_list column justify-between items-center shadow-2 q-pa-md q-my-md text-center">
+  <div class="person_list column justify-between items-center shadow-2 q-pa-md q-ma-md text-center">
     <h5 class="q-mt-sm">{{ name }}</h5>
     <q-list>
       <q-item

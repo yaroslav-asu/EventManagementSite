@@ -41,6 +41,13 @@ const routes = [
     ]
   },
   {
+    path: '/account',
+    component: () => import('layouts/account.vue'),
+    children: [
+      {path: '', component: () => import('pages/Account.vue')}
+    ]
+  },
+  {
     path: '/event/registration',
     component: () => import('pages/EventRegistration.vue')
   },

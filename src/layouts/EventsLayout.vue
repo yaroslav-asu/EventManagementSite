@@ -39,8 +39,9 @@ export default {
   },
   data() {
     let eventsList = ref([])
-    axios.get(ServerIp.serverIp + 'api/events/')
+    axios.get(ServerIp.serverIp + 'api/events/?limit=' + 10000)
       .then(res => {
+        console.log(res)
         for (let i = 0; i < res.data.count; i++) {
           eventsList.value.push(res.data.results[i])
         }

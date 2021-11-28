@@ -276,7 +276,8 @@ export default {
 }
 
 .event_header {
-  font-size: 5vw;
+  text-align: center;
+  font-size: 2vw;
   max-font-size: 1rem;
   min-font-size: 0.5rem;
   overflow-wrap: break-word;
@@ -297,7 +298,7 @@ export default {
 }
 
 .event_main_image {
-  background: #9C27B0;
+  //background: #9C27B0;
   min-width: 40vw;
   width: 100%;
   height: auto;
