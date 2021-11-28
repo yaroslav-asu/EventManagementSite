@@ -111,6 +111,7 @@
             :label="uploader.label"
             multiple
             style="max-width: 300px"
+
           />
           <q-toggle
             class="q-my-md"
@@ -158,6 +159,10 @@ export default {
       type: String,
       // required: true,
     },
+    eventRegistration: {
+      type: Object,
+      required: false
+    }
   },
   data() {
     let username = ref('')
@@ -291,8 +296,6 @@ export default {
           label: 'Загрузить дополнительные фото',
         },
       ]
-    } else if (this.formType === "EventRegistration") {
-      paramsInputDates = [{model: arrive_time, label: "Время прибытия"}, {model: depart_time, label: "Время отбытия"}];
     }
     return {
       paramsInput,
@@ -311,7 +314,8 @@ export default {
       paramsUploaders,
       paramsUploadersMultiply,
       arrive_time,
-      depart_time
+      depart_time,
+      isPrivate,
     }
   },
   methods: {
@@ -337,6 +341,9 @@ export default {
           this.$router.push('/')
         }).catch(err => {
           this.showError(err)
+        })
+      } else if (this.formType === "EventRegistration") {
+        axios.post(`${this.serverIp}api/participants_of_the_event`, {event: this.eventRegistration.event, user: this.eventRegistration.user,
         })
       }
 
