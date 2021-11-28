@@ -183,6 +183,7 @@ export default {
 
     let arrive_time = ref()
     let depart_time = ref()
+    let isPrivate = ref(true)
 
     let paramsInput
     let paramsInputPassword

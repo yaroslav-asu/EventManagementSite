@@ -8,6 +8,9 @@ export default {
     addSponsors(state, person) {
       state.sponsorsList.push(person)
       // state.personsList.push(person)
+    },
+    clearSponsors(state){
+      state = ref([])
     }
   },
   getters: {

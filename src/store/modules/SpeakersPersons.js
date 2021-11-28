@@ -8,6 +8,9 @@ export default {
     addSpeakers(state, person) {
       state.speakersPersons.push(person)
       // state.personsList.push(person)
+    },
+    clearSpeakers(state){
+      state = ref([])
     }
   },
   getters: {

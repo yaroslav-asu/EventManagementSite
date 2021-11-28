@@ -8,6 +8,9 @@ export default {
     addVips(state, person) {
       state.vipsList.push(person)
       // state.personsList.push(person)
+    },
+    clearVips(state){
+      state = ref([])
     }
   },
   getters: {

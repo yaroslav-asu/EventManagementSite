@@ -8,6 +8,9 @@ export default {
     addModerators(state, person) {
       state.moderatorsList.push(person)
       // state.personsList.push(person)
+    },
+    clearModerators(state){
+      state = ref([])
     }
   },
   getters: {

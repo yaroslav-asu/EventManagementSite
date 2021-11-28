@@ -18,18 +18,6 @@
         </div>
         <q-menu fit>
           <q-list>
-            <q-item clickable @click="this.$router.push('/account')">
-              <q-item-section>
-                Аккаунт
-              </q-item-section>
-            </q-item>
-            <q-separator/>
-            <q-item clickable @click="this.$router.push('/settings')">
-              <q-item-section>
-                Настройки
-              </q-item-section>
-            </q-item>
-            <q-separator/>
             <q-item clickable @click="exit">
               <q-item-section>
                 Выход

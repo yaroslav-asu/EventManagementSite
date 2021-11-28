@@ -115,6 +115,7 @@ import ModeratorsList from "components/ModeratorsList";
 import VipsList from "components/VipsList";
 import SpeakersPersons from "src/components/SpeakersPersons";
 import SponsorsList from "components/SponsorsList";
+import {mapGetters, mapMutations} from "vuex";
 
 export default {
   name: "CreateEvent",
@@ -135,8 +136,12 @@ export default {
     }
   },
   methods:{
+...mapMutations(['clearModerators', 'clearSpeakers', 'clearSponsors', 'clearVips']),
     onCLick(){
-
+      this.clearModerators()
+      this.clearSpeakers()
+      this.clearVips()
+      this.clearSponsors()
     }
   }
 }

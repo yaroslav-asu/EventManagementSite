@@ -28,36 +28,40 @@
         <div class="event_header_center_row">
           <q-btn v-if="isModerator" push color="white" text-color="primary" label="Изменить event"/>
         </div>
-        <div class="event_header_center_row">
-          <q-btn v-on:click="redirectRegister"
-            label="Зарегистрироваться"
-            v-model="registered"
-          />
-        </div>
       </div>
       <div class="event_header_right">
-        <q-img class="event_main_image fit" src="{{image}}"></q-img>
+        <q-img class="event_main_image" :src="image"></q-img>
       </div>
     </div>
     <div class="event_about">
       <div class="event_about_header">
         О событии
       </div>
-      <div class="event_about_text">
-        {{ description }}
+      <div class="row ">
+        <div class="">
+          Приемы пищи:
+          <p v-for="meal in meals" :key="meal">{{ meal }}</p>
+        </div>
+        <div class="">
+          Метса проведения:
+          <p v-for="place in places" :key="place">{{ place }}</p>
+        </div>
+        <div class="">
+          Расписания:
+          <div v-for="schedule in schedules" :key="schedule">
+            Длинное:
+
+          <p>{{ schedule[0] }}</p>
+          <br/>
+          Краткое:
+          <p>{{ schedule[1] }}</p>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="gallery">
-      <q-carousel
-        animated
-        v-model="slide"
-        arrows
-        navigation
-        infinite
-      >
-        <q-carousel-slide class="carousel_image" v-for="(image, i) in images" :key="i" :img-src="image" :name="i">
-        </q-carousel-slide>
-      </q-carousel>
+      <div class="event_about_text">
+        {{ }}
+      </div>
+
     </div>
   </div>
 </template>
@@ -66,8 +70,8 @@
 import axios from "axios";
 import Constants from "src/mixins/Constants";
 import {ref} from 'vue'
-import {useQuasar} from 'quasar'
 import Tokens from "src/mixins/Tokens";
+import ServerIp from "src/global_values/ServerIp";
 
 export default {
   name: "EventLayout",
@@ -78,6 +82,10 @@ export default {
     }
   },
   data() {
+    let meals = this.getMeals()
+    let image = this.getImage()
+    let places = this.getPlace()
+    let schedules = this.getSchedule()
     return {
       registered: false,
       value: ref(true),
@@ -88,13 +96,12 @@ export default {
       moderators: [],
 
       date_time_finish: null,
-      image: null,
 
       title: null,
-
-      images: ["https://i.ibb.co/H7PHwF7/fe8c3271f7a9.jpg", "https://i.ibb.co/jyrbLTk/73ae413457f6.jpg"],
-
-      description: "Встретил как-то Владимир Симкин Захара Холмова. Разговорились. А жизнь вся такая - уходят звезды, пыль летит по вселенной, умирают микробы, гаснут солнца, черные дыры засасывают свет, и куда этот свет девается? От людей только и остается, что эпитафия в цветочках.  И вот он не выдержал, похвастался, какую свинью вы мне подложили. А та, на кого он положил глаз, сидела на той же помойке и красила ногти. Но это ее совсем не огорчило, а развеселило. Потом он снова встретил этого Захара.  И говорит ему так: ты себе такую свинью нажил, что сам в ней купаешься. А Захар в ответ: а как же твоя водка? Но тут та, о которой он только что мечтал, потеряла к нему всякий интерес.\n",
+      meals,
+      image,
+      places,
+      schedules,
 
       finish_date: null,
       finish_time: null,
@@ -111,16 +118,14 @@ export default {
   },
   methods: {
     getEvent() {
-      /**this.$q.loading.show({
-        delay: 800
-      })
-       **/
+      let image, description, images
       axios.get(`${this.serverIp}api/events/${this.eventId}`).then((response) => {
         const EventInstance = response.data;
         this.organizer = EventInstance["owner"];
         this.title = EventInstance["title"];
         this.description = EventInstance["decription"];
 
+        this.image = EventInstance["image"]
         this.start = new Date(EventInstance["date_time_start"]);
         this.start_date = this.start.toISOString().substring(0, 10);
         this.start_time = this.start.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
@@ -138,9 +143,12 @@ export default {
 
         this.checkForRights();
 
-      }).catch((error) => {
-        //this.$router.push("/404")
       })
+      return {
+        image,
+        description,
+        images,
+      }
     },
     redirect() {
       this.$router.push(`/profile/${this.organizer}`)
@@ -153,6 +161,42 @@ export default {
           this.setEventUser(this.eventId, id);
         }
       )
+    },
+    getMeals() {
+      let meals = []
+      axios.get(ServerIp.serverIp + 'api/meals/?event_id=' + this.eventId)
+        .then(res => {
+          for (let i = 0; i < res.data.results.length; i++) {
+            meals.push(res.data.results[i].name)
+          }
+        })
+
+      return meals
+    },
+    getImage() {
+      let img
+      axios.get(ServerIp.serverIp + 'api/events/' + this.eventId)
+        .then(res => {
+          img = res.data.image
+        })
+      return img
+    },
+    getPlace() {
+      let places = []
+      axios.get(ServerIp.serverIp + 'api/places/?events=' + this.eventId)
+        .then(res => {
+          for (let i = 0; i < res.data.results.length; i++) {
+            places.push(res.data.results[i].name + " " + res.data.results[i].address)
+          }
+        })
+      return places
+    },
+    getSchedule() {
+      let programs = []
+      axios.get(ServerIp.serverIp + 'api/more_information/' + this.eventId).then(res => {
+        programs.push([res.data.long_program, res.data.short_program])
+      })
+      return programs
     },
     getParticipants(id) {
       axios.get(`${this.serverIp}api/participants_of_the_event/`, {data: {event: this.eventId, user: id}}).then(
@@ -169,11 +213,8 @@ export default {
   },
   mounted() {
     this.getEvent();
-  },
-  setup() {
-    const $q = useQuasar();
+    this.getSchedule()
   }
-
 }
 </script>
 
@@ -258,6 +299,8 @@ export default {
 .event_main_image {
   background: #9C27B0;
   min-width: 40vw;
+  width: 100%;
+  height: auto;
 
 }
 
