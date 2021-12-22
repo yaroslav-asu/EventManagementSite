@@ -1,5 +1,4 @@
 <template>
-
   <div class="event_card shadow-1 column q-ma-md text-center justify-between q-pa-md">
     <h5>{{ title }}</h5>
     <div class="event_img">

@@ -48,6 +48,13 @@ const routes = [
     ]
   },
   {
+    path: '/meals/:mealId',
+    component: () => import('layouts/MealsLayout.vue'),
+    children: [
+      {path: '', component: () => import('pages/Meals.vue')}
+    ]
+  },
+  {
     path: '/event/registration',
     component: () => import('pages/EventRegistration.vue')
   },

@@ -136,6 +136,7 @@ import SponsorsList from "components/SponsorsList";
 import {mapGetters, mapMutations} from "vuex";
 import ServerIp from "src/global_values/ServerIp";
 import ShowError from "src/mixins/ShowError";
+import Tokens from "src/mixins/Tokens";
 
 export default {
   name: "CreateEvent",
@@ -146,8 +147,10 @@ export default {
     VipsList,
     SpeakersPersons,
   },
+  mixins: [
+    Tokens
+  ],
   data() {
-
     return {
       eventName: ref(''),
       startDate: ref(''),
@@ -168,7 +171,6 @@ export default {
       return splitted_date.reverse().join('-')
     },
     getAddresses() {
-      let addresses = []
       axios.get(ServerIp.serverIp + 'api/premises/', {
         params: {
           date_start: this.prepareDate(this.startDate),
@@ -176,29 +178,41 @@ export default {
           capacity: this.participantsCount
         }
       }).then(res => {
-        for (let i = 0;  i < res.data.length; i++){
+        for (let i = 0; i < res.data.length; i++) {
           axios.get(ServerIp.serverIp + 'api/places/' + res.data[i])
-            .then(res =>{
+            .then(res => {
               // console.log(res)
-              addresses.push(res.data.name + " " + res.data.address)
-          })
+              this.addresses.push(res.data.name + " " + res.data.address)
+            })
             .catch(err => this.showError(err))
         }
       }).catch(err => this.showError(err))
       // console.log(addresses)
-      return addresses
     },
-    onFindAd(){
-      for (let i in this.getAddresses() ){
-        this.addresses.push(i)
-      }
+    onFindAd() {
+      this.getAddresses()
+      this.isFindAddressesActive = true
     },
     ...mapMutations(['clearModerators', 'clearSpeakers', 'clearSponsors', 'clearVips']),
     onSubmit() {
+      axios.post(ServerIp.serverIp + 'api/events/', {
+        description: this.eventDescription,
+        title: this.name,
+        date_time_start: this.startDate,
+        date_time_finish: this.endDate,
+        // place: this.selectedPlace
+      }, {
+        headers: {
+          Authorization: "Token " + this.getToken()
+        },
+      }).then(res => {
+        console.log(res)
+      })
       this.clearModerators()
       this.clearSpeakers()
       this.clearVips()
       this.clearSponsors()
+      this.$router.push('/events')
     }
   }
 }

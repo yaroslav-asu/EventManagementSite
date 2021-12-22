@@ -29,34 +29,39 @@
           <q-btn v-if="isModerator" push color="white" text-color="primary" label="Изменить event"/>
         </div>
       </div>
-      <div class="event_header_right">
-        <q-img class="event_main_image" :src="image"></q-img>
+      <div class="event_header_right column justify-center">
+        <q-img class="event_main_image " :src="image"></q-img>
       </div>
     </div>
     <div class="event_about">
       <div class="event_about_header">
         О событии
       </div>
-      <div class="row ">
-        <div class="">
-          Приемы пищи:
+      <div class="row justify-between">
+        <div class="text-center">
+          <h5>Приемы пищи:</h5>
           <p v-for="meal in meals" :key="meal">{{ meal }}</p>
         </div>
         <div class="">
-          Метса проведения:
-          <p v-for="place in places" :key="place">{{ place }}</p>
-        </div>
-        <div class="">
-          Расписания:
-          <div v-for="schedule in schedules" :key="schedule">
-            Длинное:
+          <h5 class="text-center">Расписания:</h5>
+          <div class="row">
 
-          <p>{{ schedule[0] }}</p>
-          <br/>
-          Краткое:
-          <p>{{ schedule[1] }}</p>
+            <div v-for="schedule in schedules" :key="schedule" class="q-mx-lg">
+              Длинное:
+
+              <p v-for="el in schedule[0].split('\n')" :key="el">{{ el }}</p>
+            </div>
+            <div v-for="schedule in schedules" :key="schedule">
+              Краткое:
+              <p v-for="el in schedule[1].split('\n')" :key="el">{{ el }}</p>
+            </div>
           </div>
         </div>
+        <div class="text-center">
+          <h5>Места проведения:</h5>
+          <p v-for="place in places" :key="place">{{ place }}</p>
+        </div>
+
       </div>
       <div class="event_about_text">
         {{ }}
@@ -250,6 +255,8 @@ export default {
 }
 
 .event_main_content {
+  margin-left: 5vw;
+  margin-right: 5vw;
   margin-bottom: 100px;
   height: fit-content;
   display: flex;

@@ -87,7 +87,7 @@ export default {
 
 <style lang="scss" scoped>
 .logo{
-  font-size:calc(30px + 2vw);
+  font-size:calc(10px + 2vw);
 }
 header {
   .user_name {
